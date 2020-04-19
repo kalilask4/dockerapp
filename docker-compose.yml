@@ -1,0 +1,37 @@
+version: "3"
+
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/src
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
+
+  web:
+    build:
+      context: .
+      dockerfile: compose/django/Dockerfile
+    container_name: django_web
+    volumes:
+      - ./src:/src
+    env_file:
+      - ./envs/db_keys
+    command: ["sh", "-c", "python3 manage.py runserver 0.0.0.0:8000"]
+
+  db:
+    image: postgres
+    container_name: postsql_web
+    env_file:
+      - ./envs/db_keys
+
+  adminer:
+    image: adminer
+    container_name: admin_db
+    ports:
+      - "8080:8080"
