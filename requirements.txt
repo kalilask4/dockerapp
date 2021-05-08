@@ -80,5 +80,5 @@ webencodings==0.5.1
 widgetsnbextension==3.5.1
 zipp==0.6.0
 gevent==1.4.0
-eventlet==0.25.1
+eventlet==0.31.0
 djangorestframework
